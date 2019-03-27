@@ -51,3 +51,10 @@ clean:
 	$(RM) ./$(TARGET)
 	$(RM) $(DIR)/*.o
 	$(RM) ./$(ZIPFILE)
+
+commit:
+	git add src/*
+	git commit
+
+push:
+	git push origin master
