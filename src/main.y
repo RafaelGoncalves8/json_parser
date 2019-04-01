@@ -21,13 +21,12 @@ VALUE:
      | ARRAY
      | STRING
      | NUM
-     |
      ;
 
 OBJECT:
-      R_CURLY WS L_CURLY
+      R_CURLY L_CURLY
       | R_CURLY MEMBERS L_CURLY
-      ; 
+      ;
 
 MEMBERS:
       MEMBER
@@ -35,11 +34,11 @@ MEMBERS:
       ;
 
 MEMBER:
-      WS STRING WS COLON ELEMENT
+      STRING COLON ELEMENT
       ;
 
 ARRAY:
-     R_BRACKET WS L_BRACKET
+     R_BRACKET L_BRACKET
      | R_BRACKET ELEMENTS L_BRACKET
      ;
 
@@ -49,7 +48,7 @@ ELEMENTS:
         ;
 
 ELEMENT:
-       WS VALUE WS
+       VALUE
        ;
 
 STRING:
@@ -63,6 +62,8 @@ CHARACTERS:
 
 CHARACTER:
          CHAR
+         | ZERO
+         | ONENINE
          | R_CURLY
          | L_CURLY
          | R_BRACKET
@@ -87,7 +88,7 @@ INT:
 
 DIGITS:
       DIGIT
-      | ONENINE DIGITS
+      | DIGIT DIGITS
       ;
 
 DIGIT:
@@ -99,11 +100,6 @@ FRAC:
     DOT DIGITS
     |
     ;
-
-WS:
-
-  ;
-
 
 %%
 
