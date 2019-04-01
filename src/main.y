@@ -2,40 +2,113 @@
 
 %{
 #include <stdio.h>
-  #include <stdlib.h>
+#include <stdlib.h>
 void yyerror(char *c);
 int yylex(void);
 %}
 
-%token R_CURLY L_CURLY COMMA COLON QUOTE EOL NUM STRING
+%token R_CURLY L_CURLY COMMA COLON QUOTE EOL ONENINE ZERO CHAR BACKSLASH MINUS DOT R_BRACKET L_BRACKET
 
 %%
 
-PROGRAM:
-       PROGRAM EXP EOL { printf("VALIDO\n"); }
+JSON:
+        ELEMENT { printf("VALIDO\n"); return 0; }
         |
         ;
 
-EXP:
-    R_CURLY EXP L_CURLY
-    | KEY COLON EXP
-    | STRING { $$ = $1 }
-    | NUM { $$ = $1 }
-    | LIST { $$ = $1 }
+VALUE:
+     OBJECT
+     | ARRAY
+     | STRING
+     | NUM
+     |
+     ;
+
+OBJECT:
+      R_CURLY WS L_CURLY
+      | R_CURLY MEMBERS L_CURLY
+      ; 
+
+MEMBERS:
+      MEMBER
+      | MEMBER COMMA MEMBERS
+      ;
+
+MEMBER:
+      WS STRING WS COLON ELEMENT
+      ;
+
+ARRAY:
+     R_BRACKET WS L_BRACKET
+     | R_BRACKET ELEMENTS L_BRACKET
+     ;
+
+ELEMENTS:
+        ELEMENT
+        | ELEMENT COMMA ELEMENTS
+        ;
+
+ELEMENT:
+       WS VALUE WS
+       ;
+
+STRING:
+      QUOTE CHARACTERS QUOTE
+      ;
+
+CHARACTERS:
+          CHARACTER CHARACTERS
+          |
+          ;
+
+CHARACTER:
+         CHAR
+         | R_CURLY
+         | L_CURLY
+         | R_BRACKET
+         | L_BRACKET
+         | COMMA
+         | COLON
+         | MINUS
+         | BACKSLASH QUOTE
+         | BACKSLASH BACKSLASH
+         ;
+
+NUM:
+    INT FRAC
     ;
 
-KEY:
-    QUOTE STRING QUOTE
+INT:
+   DIGIT
+   | ONENINE DIGITS
+   | MINUS DIGIT
+   | MINUS ONENINE DIGITS
+   ;
+
+DIGITS:
+      DIGIT
+      | ONENINE DIGITS
+      ;
+
+DIGIT:
+     ZERO
+     | ONENINE
+     ;
+
+FRAC:
+    DOT DIGITS
+    |
     ;
 
-LIST:
-    R_BRACKET EXP L_BRACKET
-    ;
+WS:
+
+  ;
 
 
 %%
 
 void yyerror(char *s) {
+    printf("INVALIDO\n");
 }
 
 int main() {

@@ -55,7 +55,14 @@ extern int yydebug;
     COLON = 261,
     QUOTE = 262,
     EOL = 263,
-    ALPHANUM = 264
+    ONENINE = 264,
+    ZERO = 265,
+    CHAR = 266,
+    BACKSLASH = 267,
+    MINUS = 268,
+    DOT = 269,
+    R_BRACKET = 270,
+    L_BRACKET = 271
   };
 #endif
 /* Tokens.  */
@@ -65,7 +72,14 @@ extern int yydebug;
 #define COLON 261
 #define QUOTE 262
 #define EOL 263
-#define ALPHANUM 264
+#define ONENINE 264
+#define ZERO 265
+#define CHAR 266
+#define BACKSLASH 267
+#define MINUS 268
+#define DOT 269
+#define R_BRACKET 270
+#define L_BRACKET 271
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

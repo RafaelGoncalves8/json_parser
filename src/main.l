@@ -7,10 +7,8 @@ void yyerror(char *);
 
 %}
 
-NUM [0-9]+
-ALPHA [a-zA-Z]+
-SYM [\,\.\'\:\;]
-ESCAPED [(\\\")(\\\\)]
+DIGIT [0-9]
+
 
 %%
 
@@ -42,23 +40,31 @@ ESCAPED [(\\\")(\\\\)]
             return COLON;
         }
 
-[\]     {
+\\     {
             return BACKSLASH;
         }
 
-[$ALPHA$NUM$SYM$ESCAPED]+       {
-                                    return STRING;
-                                }
-
-$NUM    {
-                return NUM;
-            }
-
-\n      {
-            return EOL;
+[-]     {
+            return MINUS;
         }
 
-[ \t]+ ;
+[1-9]  {
+            return ONENINE;
+        }
+
+[0]       {
+            return ZERO;
+        }
+
+\.      {
+            return DOT;
+        }
+
+[ \t\n]+ ;
+
+.       {
+            return CHAR;
+        }
 
 
 %%
